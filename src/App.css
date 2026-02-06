@@ -1,0 +1,63 @@
+:root {
+  --primary: #0056b3;
+  --bg-body: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #333;
+}
+
+[data-theme='dark'] {
+  --primary: #38bdf8;
+  --bg-body: #0f172a;
+  --card-bg: #1e293b;
+  --text: #f1f5f9;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  transition: background 0.3s ease;
+}
+
+.header-section {
+  background: var(--primary);
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 0 0 30px 30px;
+}
+
+.grid-container {
+  display: grid;
+  /* Isso torna o grid responsivo automaticamente */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.modern-card {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-top: 6px solid var(--primary);
+  transition: transform 0.2s ease;
+}
+
+.modern-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 600px) {
+  .header-section h1 { font-size: 1.5rem; }
+  .grid-container { grid-template-columns: 1fr; }
+}
