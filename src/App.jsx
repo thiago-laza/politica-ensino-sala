@@ -1,123 +1,103 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import EducacaoInfantil from './pages/EducacaoInfantil';
+import PaginaRede from './pages/PaginaRede';
 
-// --- CONFIGURAÇÃO DE CORES (TEMA ESCURO FIXO) ---
+// --- CONFIGURAÇÃO DE DISCIPLINAS POR GRUPO ---
+const discComum = [
+  'arte', 'ciências da natureza', 'educação física', 'geografia', 
+  'história', 'língua inglesa', 'língua portuguesa', 'matemática'
+];
+
+const discComRecife = [...discComum, 'história do recife'];
+const discComLeis = [...discComum, 'introdução às leis trabalhistas'];
+
+// --- TEMA VISUAL ---
 const theme = {
-  background: '#0f172a', // Azul muito escuro (Slate 900)
-  cardBg: '#1e293b',     // Azul escuro (Slate 800)
-  text: '#f1f5f9',       // Branco acinzentado
-  accent: '#38bdf8',     // Azul brilhante (Sky 400)
-  header: '#1e293b'
+  background: '#0f172a',
+  cardBg: '#1e293b',
+  text: '#f1f5f9',
+  headerBg: '#1e293b',
 };
 
-const styles = {
-  app: {
-    backgroundColor: theme.background,
-    color: theme.text,
-    minHeight: '100vh',
-    width: '100vw', // Ocupa toda a largura
-    margin: 0,
-    padding: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    overflowX: 'hidden'
-  },
-  header: {
-    backgroundColor: theme.header,
-    padding: '60px 20px',
-    textAlign: 'center',
-    borderBottom: `1px solid rgba(255,255,255,0.1)`,
-    boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
-  },
-  mainContent: {
-    flex: 1,
-    width: '100%',
-    maxWidth: '1400px', // Aumentado para ocupar mais espaço em telas grandes
-    margin: '0 auto',
-    padding: '40px 20px'
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', // Cards um pouco maiores
-    gap: '30px',
-    width: '100%'
-  },
-  card: {
-    background: theme.cardBg,
-    textDecoration: 'none',
-    color: theme.text,
-    padding: '50px 30px',
-    borderRadius: '24px',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: '1.4rem',
-    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
-    transition: 'all 0.3s ease',
-    border: '1px solid rgba(255,255,255,0.05)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-};
-
-// --- COMPONENTES ---
-
+// --- COMPONENTE DA PÁGINA INICIAL ---
 const Home = () => (
-  <div style={styles.grid}>
-    <Link to="/infantil" className="card-hover" style={{...styles.card, borderTop: '10px solid #fb923c'}}>Educação Infantil</Link>
-    <Link to="/anos-iniciais" className="card-hover" style={{...styles.card, borderTop: '10px solid #4ade80'}}>Anos Iniciais</Link>
-    <Link to="/anos-finais" className="card-hover" style={{...styles.card, borderTop: '10px solid #60a5fa'}}>Anos Finais</Link>
-    <Link to="/eja" className="card-hover" style={{...styles.card, borderTop: '10px solid #a855f7'}}>EJA</Link>
-  </div>
-);
-
-const SubPage = ({ titulo, itens, cor }) => (
-  <div style={{ width: '100%' }}>
-    <Link to="/" style={{ color: theme.accent, textDecoration: 'none', fontWeight: 'bold', display: 'block', marginBottom: '20px' }}>
-      ← Voltar para o Início
+  <div style={gridStyle}>
+    <Link to="/infantil" className="card-item" style={{ ...cardStyle, borderTop: '10px solid #fb923c' }}>
+      Educação Infantil
     </Link>
-    <h2 style={{ fontSize: '2rem', marginBottom: '30px', borderLeft: `8px solid ${cor}`, paddingLeft: '15px' }}>{titulo}</h2>
-    <div style={styles.grid}>
-      {itens.map(item => (
-        <div key={item} style={{...styles.card, borderTop: `6px solid ${cor}`, fontSize: '1.1rem'}}>
-          {item}
-        </div>
-      ))}
-    </div>
+    <Link to="/anos-iniciais" className="card-item" style={{ ...cardStyle, borderTop: '10px solid #4ade80' }}>
+      Anos Iniciais
+    </Link>
+    <Link to="/anos-finais" className="card-item" style={{ ...cardStyle, borderTop: '10px solid #60a5fa' }}>
+      Anos Finais
+    </Link>
+    <Link to="/eja" className="card-item" style={{ ...cardStyle, borderTop: '10px solid #a855f7' }}>
+      EJA
+    </Link>
   </div>
 );
 
+// --- COMPONENTE PRINCIPAL ---
 export default function App() {
   return (
     <Router>
-      <div style={styles.app}>
-        {/* Estilos globais para o hover e reset de margens */}
+      <div style={appWrapperStyle}>
         <style>{`
-          body { margin: 0; padding: 0; overflow-x: hidden; background: ${theme.background}; }
-          .card-hover:hover { 
-            transform: translateY(-12px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            filter: brightness(1.2);
-          }
+          body { margin: 0; padding: 0; background-color: ${theme.background}; color: ${theme.text}; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+          .card-item { transition: all 0.3s ease; text-decoration: none; color: inherit; background: ${theme.cardBg}; }
+          .card-item:hover { transform: translateY(-10px); filter: brightness(1.2); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
         `}</style>
 
-        <header style={styles.header}>
-          <h1 style={{ fontSize: '2.8rem', letterSpacing: '-1px' }}>Política de Ensino em Sala</h1>
-          <p style={{ marginTop: '15px', opacity: 0.7, fontSize: '1.2rem' }}>
-            Recursos Digitais • BNCC Computação • RMER Recife
-          </p>
+        <header style={headerStyle}>
+          <h1 style={{ margin: 0, fontSize: '2.2rem' }}>Política de Ensino da Rede em Sala</h1>
+          <p style={{ marginTop: '8px', opacity: 0.7 }}>Recursos Digitais • BNCC Computação • RMER Recife</p>
         </header>
 
-        <main style={styles.mainContent}>
+        <main style={mainContentStyle}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/infantil" element={<SubPage titulo="Educação Infantil" cor="#fb923c" itens={['Bebês (0 a 1a 6m)', 'Crianças Bem Pequenas (1a 6m a 3a 11m)', 'Crianças Pequenas (4a a 5a 11m)']} />} />
-            <Route path="/anos-iniciais" element={<SubPage titulo="Anos Iniciais" cor="#4ade80" itens={['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano']} />} />
-            <Route path="/anos-finais" element={<SubPage titulo="Anos Finais" cor="#60a5fa" itens={['6º Ano', '7º Ano', '8º Ano', '9º Ano']} />} />
-            <Route path="/eja" element={<SubPage titulo="EJA" cor="#a855f7" itens={['Módulo I', 'Módulo II', 'Módulo III', 'Módulo IV', 'Módulo V']} />} />
+            
+            <Route path="/infantil" element={<EducacaoInfantil />} />
+
+            <Route path="/anos-iniciais" element={
+              <PaginaRede nivel="Anos Iniciais" cor="#4ade80" opcoesEtapas={[
+                { id: '1', titulo: '1º Ano', disciplinas: discComum },
+                { id: '2', titulo: '2º Ano', disciplinas: discComum },
+                { id: '3', titulo: '3º Ano', disciplinas: discComum },
+                { id: '4', titulo: '4º Ano', disciplinas: discComum },
+                { id: '5', titulo: '5º Ano', disciplinas: discComum },
+              ]} />
+            } />
+
+            <Route path="/anos-finais" element={
+              <PaginaRede nivel="Anos Finais" cor="#60a5fa" opcoesEtapas={[
+                { id: '6', titulo: '6º Ano', disciplinas: discComRecife },
+                { id: '7', titulo: '7º Ano', disciplinas: discComRecife },
+                { id: '8', titulo: '8º Ano', disciplinas: discComum },
+                { id: '9', titulo: '9º Ano', disciplinas: discComLeis },
+              ]} />
+            } />
+
+            <Route path="/eja" element={
+              <PaginaRede nivel="EJA" cor="#a855f7" opcoesEtapas={[
+                { id: 'm1', titulo: 'Módulo I', disciplinas: discComRecife },
+                { id: 'm2', titulo: 'Módulo II', disciplinas: discComRecife },
+                { id: 'm3', titulo: 'Módulo III', disciplinas: discComum },
+                { id: 'm4', titulo: 'Módulo IV', disciplinas: discComLeis },
+                { id: 'm5', titulo: 'Módulo V', disciplinas: discComLeis },
+              ]} />
+            } />
           </Routes>
         </main>
       </div>
     </Router>
   );
 }
+
+// --- ESTILOS AUXILIARES ---
+const appWrapperStyle = { display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100vw' };
+const headerStyle = { backgroundColor: theme.headerBg, padding: '40px 20px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' };
+const mainContentStyle = { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px 20px', width: '100%', maxWidth: '1400px', margin: '0 auto', boxSizing: 'border-box' };
+const gridStyle = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '25px', width: '100%', marginTop: '20px' };
+const cardStyle = { padding: '60px 20px', borderRadius: '24px', textAlign: 'center', fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center' };
